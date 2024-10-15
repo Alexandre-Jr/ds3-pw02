@@ -146,4 +146,8 @@ int inserirRegistro(arqBin * _arqBin, registro * _registro, int seekpoint);
 // Input: _arqBin - ponteiro para a estrutura arqBin que representa o arquivo
 void criarArquivo(arqBin * _arqBin);
 
+// Converte um nome para um valor inteiro
+// Input: str - string que será convertida
+long converteNome(char* str);
+
 #endif // UTILS_H

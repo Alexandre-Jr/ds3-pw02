@@ -641,4 +641,41 @@ void printRegistro(registro * _registro) {
     printf("\n");
 }
 
+// Função fornecida pelo professor para converter o nome para um número
+long converteNome(char* str) {
+    /* O registro que tem essa string como chave foi removido */
+    if(str[0] == '*')
+        return -1;
+
+    /* Começamos com o primeiro digito na ordem de 6^0 = 1 */
+    long power = 1;
+
+    /* Faz a conversão char por char para chegar ao resultado */
+    long result = 0;
+    for(int i = 0; i < strlen(str); i++) {
+        int cur_digit;
+        /* Checa pelas letras minúsculas e as converte para números */
+        if(str[i] >= 'a' && str[i] <= 'z')
+            cur_digit = str[i] - 'a';
+        /* Checa pelas letras maiúsculas e as converte para números */
+        else if(str[i] >= 'A' && str[i] <= 'Z')
+            cur_digit = str[i] - 'A';
+
+        /*
+            Multiplica o digito atual pelo ordem da posição atual
+            e adiciona no resultado
+            Primeira posição:   6^0 = 1
+            Segunda posição:    6^1 = 6
+            Terceira posição:   6^2 = 36
+            Quarta posição:     6^3 = 216
+            Quinta posição:     6^4 = 1.296
+        */
+        result += cur_digit * power;
+
+        /* Aumenta a ordem atual */
+        power *= 6;
+    }
+
+    return result;
+}
 
