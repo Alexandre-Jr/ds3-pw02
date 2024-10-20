@@ -269,7 +269,9 @@ int arvoreb_leRegistro(arvoreb * _arvoreb, arvorebRegistro * _arvorebRegistroDes
 // Pesquisa um elemento por uma chave na arvoreb e insere uma copia em _arvorebElementoDestino (retorna 1 - erro e retorna 0 - sucesso)
 int arvoreb_pesquisaChave(arvoreb * _arvoreb, tipo_chave chaveBusca, arvorebElemento * _arvorebElementoDestino) {
     // Teste de erro
-    if (_arvorebElementoDestino == NULL);
+    if (_arvorebElementoDestino == NULL) {
+        return 1;
+    }
 
     // Cria o cabecalho
     arvorebCabecalho * _arvbCab;
@@ -300,7 +302,7 @@ int arvoreb_pesquisaChave(arvoreb * _arvoreb, tipo_chave chaveBusca, arvorebElem
 
         // Executa a busca binaria
         while (inicioLista <= fimLista) {
-
+            
             // Captura o pivo
             pivo = (fimLista - inicioLista) / 2 + inicioLista;
 
@@ -351,6 +353,7 @@ int arvoreb_pesquisaChave(arvoreb * _arvoreb, tipo_chave chaveBusca, arvorebElem
 
         _arvorebElementoDestino->chave = -1;
         _arvorebElementoDestino->pr = -1;
+        return 1;
 
     } else {
 

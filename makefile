@@ -11,7 +11,7 @@ all:
 	g++ -c $(SRC)/func5.c  -I $(INCLUDE)/ -o $(OBJ)/func5.o
 	g++ -c $(SRC)/func6.c  -I $(INCLUDE)/ -o $(OBJ)/func6.o
 	g++ -c $(SRC)/func7.c  -I $(INCLUDE)/ -o $(OBJ)/func7.o
-
+	g++ -c $(SRC)/func8.c  -I $(INCLUDE)/ -o $(OBJ)/func8.o
 	
 	g++ -c $(SRC)/structs/arvoreb.c  -I $(INCLUDE)/structs -o $(OBJ)/arvoreb.o
 	g++ -c $(SRC)/utils.c  -I $(INCLUDE)/ -o $(OBJ)/utils.o

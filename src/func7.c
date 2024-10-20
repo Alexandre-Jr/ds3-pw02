@@ -101,8 +101,6 @@ void func7()
       arvbEle.pr = i * 160 + 1600;
 
       int j = _arvoreb->insereElemento(_arvoreb, &arvbEle);
-
-      printf("%d", j);
     }
 
     // Destroi registro da memoria
