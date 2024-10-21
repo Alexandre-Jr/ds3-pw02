@@ -7,7 +7,7 @@
 #include "./include/src/func6.h"
 #include "./include/src/func7.h"
 #include "./include/src/func8.h"
-
+#include "./include/src/func9.h"
 #include "./include/src/structs/arvoreb.h"
 
 
@@ -40,6 +40,9 @@ int main(void) {
   case 8:
     func8();
     break; 
+  case 9:
+    func9();
+    break;
   }
 
 
