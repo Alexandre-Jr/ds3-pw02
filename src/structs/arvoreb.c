@@ -497,8 +497,6 @@ int arvoreb_insereElemento(arvoreb * _arvoreb, arvorebElemento * _arvorebElement
     // Verifica se a chave foi encontrada
     if (existeChave == 1) {
 
-        printf("[sys]: Registro ja existe na arvoreb\n");
-        
         // Desaloca memoria alocada
         free(caminho);
         destroiArvorebRegistro(&_arvbReg);

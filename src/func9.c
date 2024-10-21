@@ -111,7 +111,10 @@ void func9() {
 
     // Le cabecalho
     leCabecalho(_arqBin, &cab);
+    cab.status = '0';
 
+    // Insere cabecalho
+    escreveCabecalho(_arqBin, &cab);
     char aux[100];
     // Leitura dos registros a serem inseridos
     for(int i = 0; i < n; ++i) {
@@ -151,7 +154,7 @@ void func9() {
         // Unidade de medida
         scan_quote_string(aux);
         if(strcmp(aux, "NULO") == 0) {
-            _novo_registro->unidadeMedida = '\0';
+            _novo_registro->unidadeMedida = '$';
         } else {
             _novo_registro->unidadeMedida = aux[0];
         }
@@ -190,20 +193,28 @@ void func9() {
             _novo_registro->alimento = (char *) malloc(strlen(aux) + 1);
             strncpy(_novo_registro->alimento, aux, strlen(aux) + 1);
         }   
-        // Encontra a posicao do registro
-        fseek(_arqBin->_file, (i + NumeroReg) * TAMANHO_REGISTRO + TAMANHO_PAG, SEEK_SET);
+
+        printRegistro(_novo_registro);
+
+        //Insere o registro no arquivo
+        inserirRegistro(_arqBin, _novo_registro, (i + NumeroReg) * 160 + 1600);
 
         // Cria um elemento da arvoreb
         arvorebElemento arvbEle;
         arvbEle.chave = converteNome(_novo_registro->nome);
         arvbEle.pr = (i + NumeroReg) * 160 + 1600;
-
+        printf("chave: %d ; pr: %ld\n", arvbEle.chave, arvbEle.pr);
       int j = _arvoreb->insereElemento(_arvoreb, &arvbEle);
 
         // Destroi registro da memoria
         destroiRegistro(&_novo_registro);
     }
     
+    // Atualiza o cabecalho
+    _cabecalho->status = '1';
+
+    // Insere cabecalho
+    escreveCabecalho(_arqBin, _cabecalho);
 
     // Finaliza a edicao na arvoreb
     _arvoreb->leCabecalho(_arvoreb, _arvbCab);
