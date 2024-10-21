@@ -126,6 +126,24 @@ void func9() {
         _novo_registro->nome = (char *) malloc(strlen(aux) + 1);
         strncpy(_novo_registro->nome, aux, strlen(aux) + 1);
 
+        // Dieta
+        scan_quote_string(aux);
+        if(strcmp(aux, "NULO") == 0) {
+            _novo_registro->dieta = NULL;
+        } else {
+            _novo_registro->dieta = (char *) malloc(strlen(aux) + 1);
+            strncpy(_novo_registro->dieta, aux, strlen(aux) + 1);
+        }
+
+        // Habitat
+        scan_quote_string(aux);
+        if(strcmp(aux, "NULO") == 0) {
+            _novo_registro->habitat = NULL;
+        } else {
+            _novo_registro->habitat = (char *) malloc(strlen(aux) + 1);
+            strncpy(_novo_registro->habitat, aux, strlen(aux) + 1);
+        }
+
         // Populacao
         scan_quote_string(aux);
         if(strcmp(aux, "NULO") == 0) {
@@ -148,7 +166,7 @@ void func9() {
         if(strcmp(aux, "NULO") == 0) {
             _novo_registro->velocidade = -1;
         } else {
-            _novo_registro->velocidade = atoi(aux);
+            _novo_registro->velocidade = atof(aux);
         }
 
         // Unidade de medida
@@ -157,15 +175,6 @@ void func9() {
             _novo_registro->unidadeMedida = '$';
         } else {
             _novo_registro->unidadeMedida = aux[0];
-        }
-
-        // Habitat
-        scan_quote_string(aux);
-        if(strcmp(aux, "NULO") == 0) {
-            _novo_registro->habitat = NULL;
-        } else {
-            _novo_registro->habitat = (char *) malloc(strlen(aux) + 1);
-            strncpy(_novo_registro->habitat, aux, strlen(aux) + 1);
         }
 
         // Tamanho
@@ -185,31 +194,31 @@ void func9() {
             strncpy(_novo_registro->especie, aux, strlen(aux) + 1);
         }
 
-        // Aliemento
+        // Alimento
         scan_quote_string(aux);
         if(strcmp(aux, "NULO") == 0) {
             _novo_registro->alimento = NULL;
         } else {
             _novo_registro->alimento = (char *) malloc(strlen(aux) + 1);
             strncpy(_novo_registro->alimento, aux, strlen(aux) + 1);
-        }   
+        }
 
-        printRegistro(_novo_registro);
+        //printRegistro(_novo_registro);
 
         //Insere o registro no arquivo
-        inserirRegistro(_arqBin, _novo_registro, (i + NumeroReg) * 160 + 1600);
+        inserirRegistro(_arqBin, _novo_registro, (i + NumeroReg - 1) * 160 + 1600);
 
         // Cria um elemento da arvoreb
         arvorebElemento arvbEle;
         arvbEle.chave = converteNome(_novo_registro->nome);
-        arvbEle.pr = (i + NumeroReg) * 160 + 1600;
-        printf("chave: %d ; pr: %ld\n", arvbEle.chave, arvbEle.pr);
+        arvbEle.pr = (i + NumeroReg - 1) * 160 + 1600;
+        printf("chave: %ld ; pr: %ld\n", arvbEle.chave, arvbEle.pr);
       int j = _arvoreb->insereElemento(_arvoreb, &arvbEle);
 
         // Destroi registro da memoria
         destroiRegistro(&_novo_registro);
     }
-    
+    printArvoreb(_arvoreb);
     // Atualiza o cabecalho
     _cabecalho->status = '1';
 
