@@ -63,9 +63,6 @@ void func9() {
     // Faz a leitura do nome destino da arvoreb
     scanf("%s", _arvoreb->_arq->nomeBin);
 
-    // Cria um arquivo da arvoreb
-    _arvoreb->criaArquivoArvoreb(_arvoreb, _arvoreb->_arq->nomeBin);
-
     // Abre o arquivo
     _arvoreb->abrirArquivo(_arvoreb, _arvoreb->_arq->nomeBin);
 
@@ -73,49 +70,41 @@ void func9() {
     arvorebCabecalho *_arvbCab;
     criaArvorebCabecalho(&_arvbCab);
 
+    _arvoreb->leCabecalho(_arvoreb, _arvbCab);
+
+    // Verifica se a arvoreb esta inconsistente
+    if (_arvbCab->status == '0') {
+        printf("Falha no processamento do arquivo.\n");
+
+        // Fechar arquivo
+        fecharArqBin(_arqBin);
+
+        // Termina a funcao
+        destroiCabecalho(&_cabecalho);
+        destroiArqBin(&_arqBin);
+
+        return;
+    }
+
+    // Numero de registros a serem inseridos
+    int n;
+    scanf("%d", &n);
+
+    // Altera o status do arquivo arvoreb para inconsistente
     _arvbCab->status = '0';
     _arvbCab->RRNproxNo = 0;
     _arvbCab->noRaiz = 0;
 
     _arvoreb->insereCabecalho(_arvoreb, _arvbCab);
 
-    // Faz a varredura no numero de registros
-    for (int i = 0; i < NumeroReg; i++) {
-        // Encontra a posicao do registro
-        fseek(_arqBin->_file, i * TAMANHO_REGISTRO + TAMANHO_PAG, SEEK_SET);
+    // Altera o status do arquivo binario para inconsistente
+    _cabecalho->status = '0';
 
-        // Cria registro
-        registro *_registro = criaRegistro();
+    escreveCabecalho(_arqBin, _cabecalho);
 
-        // Le registro
-        leRegistro(_arqBin, _registro);
-
-        if (_registro->removido == '0') {
-            // Cria um elemento da arvoreb
-            arvorebElemento arvbEle;
-            arvbEle.chave = converteNome(_registro->nome);
-            arvbEle.pr = i * 160 + 1600;
-
-            int j = _arvoreb->insereElemento(_arvoreb, &arvbEle);
-        }
-
-        // Destroi registro da memoria
-        destroiRegistro(&_registro);
-    }
-    // Numero de registros a serem inseridos
-    int n;
-    scanf("%d", &n);
-
-    // Cria um cabecalho
-    cabecalho cab;
-
-    // Le cabecalho
-    leCabecalho(_arqBin, &cab);
-    cab.status = '0';
-
-    // Insere cabecalho
-    escreveCabecalho(_arqBin, &cab);
+    // Variavel auxiliar para leitura
     char aux[100];
+
     // Leitura dos registros a serem inseridos
     for(int i = 0; i < n; ++i) {
         // Cria um registro
@@ -202,36 +191,31 @@ void func9() {
             _novo_registro->alimento = (char *) malloc(strlen(aux) + 1);
             strncpy(_novo_registro->alimento, aux, strlen(aux) + 1);
         }
-
         //printRegistro(_novo_registro);
-
         //Insere o registro no arquivo
-        inserirRegistro(_arqBin, _novo_registro, (i + NumeroReg - 1) * 160 + 1600);
+        inserirRegistro(_arqBin, _novo_registro, (i + NumeroReg) * 160 + 1600);
 
         // Cria um elemento da arvoreb
-        arvorebElemento arvbEle;
-        arvbEle.chave = converteNome(_novo_registro->nome);
-        arvbEle.pr = (i + NumeroReg - 1) * 160 + 1600;
-        printf("chave: %ld ; pr: %ld\n", arvbEle.chave, arvbEle.pr);
-      int j = _arvoreb->insereElemento(_arvoreb, &arvbEle);
+        arvorebElemento* arvbEle;
+        arvbEle = (arvorebElemento*) malloc(sizeof(arvorebElemento));
+
+        arvbEle->chave = converteNome(_novo_registro->nome);
+        arvbEle->pr = (i + NumeroReg) * 160 + 1600;
+        int j = _arvoreb->insereElemento(_arvoreb, arvbEle);
 
         // Destroi registro da memoria
         destroiRegistro(&_novo_registro);
     }
-    printArvoreb(_arvoreb);
-    // Atualiza o cabecalho
+    // Atualiza o cabecalho do arquivo binario
     _cabecalho->status = '1';
-
-    // Insere cabecalho
+    _cabecalho->proxRRN = NumeroReg + n;
     escreveCabecalho(_arqBin, _cabecalho);
 
     // Finaliza a edicao na arvoreb
     _arvoreb->leCabecalho(_arvoreb, _arvbCab);
-
     _arvbCab->status = '1';
-
     _arvoreb->insereCabecalho(_arvoreb, _arvbCab);
-
+    printArvoreb(_arvoreb);
     // Fechar arquivo binario lido
     fecharArqBin(_arqBin);
 
