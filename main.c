@@ -43,19 +43,21 @@ int main(void) {
   case 9:
     func9();
     break;
+  case 10:
+    /*
+    arvoreb * _arvb;
+    criaArvoreb(&_arvb);
+
+    char v[] = "indiceDino8.bin";
+
+    _arvb->abrirArquivo(_arvb, v);
+    
+    printArvoreb(_arvb);
+    */
+   char nome[] = "pterodactilus";
+    printf("%ld", converteNome(nome));
+    break;
   }
 
-
-  // Para Eler um arquivo indice arvore b
-  /*
-  arvoreb * _arvb;
-  criaArvoreb(&_arvb);
-
-  char v[] = "bin.bin";
-
-  _arvb->abrirArquivo(_arvb, v);
-  
-  printArvoreb(_arvb);*/
-
-  return 0;
+return 0;
 }

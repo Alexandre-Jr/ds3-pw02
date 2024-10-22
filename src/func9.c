@@ -121,7 +121,7 @@ void func9() {
 
         // Dieta
         scan_quote_string(aux);
-        if(strcmp(aux, "NULO") == 0) {
+        if(strcmp(aux, "") == 0) {
             _novo_registro->dieta = NULL;
         } else {
             _novo_registro->dieta = (char *) malloc(strlen(aux) + 1);
@@ -130,7 +130,7 @@ void func9() {
 
         // Habitat
         scan_quote_string(aux);
-        if(strcmp(aux, "NULO") == 0) {
+        if(strcmp(aux, "") == 0) {
             _novo_registro->habitat = NULL;
         } else {
             _novo_registro->habitat = (char *) malloc(strlen(aux) + 1);
@@ -139,7 +139,7 @@ void func9() {
 
         // Populacao
         scan_quote_string(aux);
-        if(strcmp(aux, "NULO") == 0) {
+        if(strcmp(aux, "") == 0) {
             _novo_registro->populacao = -1;
         } else {
             _novo_registro->populacao = atoi(aux);
@@ -147,7 +147,7 @@ void func9() {
 
         // Tipo
         scan_quote_string(aux);
-        if(strcmp(aux, "NULO") == 0) {
+        if(strcmp(aux, "") == 0) {
             _novo_registro->tipo = NULL;
         } else {
             _novo_registro->tipo = (char *) malloc(strlen(aux) + 1);
@@ -156,15 +156,15 @@ void func9() {
 
         // Velocidade
         scan_quote_string(aux);
-        if(strcmp(aux, "NULO") == 0) {
+        if(strcmp(aux, "") == 0) {
             _novo_registro->velocidade = -1;
         } else {
-            _novo_registro->velocidade = atof(aux);
+            _novo_registro->velocidade = atoi(aux);
         }
 
         // Unidade de medida
         scan_quote_string(aux);
-        if(strcmp(aux, "NULO") == 0) {
+        if(strcmp(aux, "") == 0) {
             _novo_registro->unidadeMedida = '$';
         } else {
             _novo_registro->unidadeMedida = aux[0];
@@ -172,7 +172,7 @@ void func9() {
 
         // Tamanho
         scan_quote_string(aux);
-        if(strcmp(aux, "NULO") == 0) {
+        if(strcmp(aux, "") == 0) {
             _novo_registro->tamanho = -1;
         } else {
             _novo_registro->tamanho = atof(aux);
@@ -180,7 +180,7 @@ void func9() {
 
         // Especie
         scan_quote_string(aux);
-        if(strcmp(aux, "NULO") == 0) {
+        if(strcmp(aux, "") == 0) {
             _novo_registro->especie = NULL;
         } else {
             _novo_registro->especie = (char *) malloc(strlen(aux) + 1);
@@ -189,28 +189,28 @@ void func9() {
 
         // Alimento
         scan_quote_string(aux);
-        if(strcmp(aux, "NULO") == 0) {
+        if(strcmp(aux, "") == 0) {
             _novo_registro->alimento = NULL;
         } else {
             _novo_registro->alimento = (char *) malloc(strlen(aux) + 1);
             strncpy(_novo_registro->alimento, aux, strlen(aux) + 1);
         }
-        printRegistro(_novo_registro);
+
         //Insere o registro no arquivo
         inserirRegistro(_arqBin, _novo_registro, (i + NumeroReg) * 160 + 1600);
-        printf("Registro inserido com sucesso.\n");
+
         // Cria um elemento da arvoreb
         arvorebElemento arvbEle;
         
         arvbEle.chave = converteNome(_novo_registro->nome);
         arvbEle.pr = (i + NumeroReg) * 160 + 1600;
-        printf("%ld %ld\n", arvbEle.chave, arvbEle.pr);
+
         int j = _arvoreb->insereElemento(_arvoreb, &arvbEle);
         if(j == 1) {
             printf("Falha no processamento do arquivo.\n");
             return;
         }
-        printf("Elemento inserido com sucesso.\n");
+
         // Destroi registro da memoria
         destroiRegistro(&_novo_registro);
     }
