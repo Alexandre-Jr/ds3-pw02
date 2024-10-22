@@ -12,7 +12,8 @@ void func9() {
     scanf("%s", _arqBin->nomeBin);
 
     // Abrir arquivo
-    if (abrirArqBin(_arqBin, 'r') == 1) {
+    if (abrirArqBin(_arqBin, 'r') == 1)
+    {
         printf("Falha no processamento do arquivo.\n");
 
         // Fechar arquivo
@@ -31,7 +32,8 @@ void func9() {
     leCabecalho(_arqBin, _cabecalho);
 
     // Verifica se o arquivo não apresenta o aviso de inconsistente
-    if (_cabecalho->status == '0') {
+    if (_cabecalho->status == '0')
+    {
         printf("Falha no processamento do arquivo.\n");
 
         // Fechar arquivo
@@ -51,7 +53,8 @@ void func9() {
     int NumeroReg = (tamArqBin - TAMANHO_PAG) / TAMANHO_REGISTRO;
     int NumeroPag = ceil((float)tamArqBin / TAMANHO_PAG);
 
-    if (NumeroReg == 0) { // Sem registros
+    if (NumeroReg == 0)
+    { // Sem registros
         printf("Registro inexistente.\n");
         return;
     }
@@ -62,7 +65,7 @@ void func9() {
 
     // Faz a leitura do nome destino da arvoreb
     scanf("%s", _arvoreb->_arq->nomeBin);
-
+    
     // Abre o arquivo
     _arvoreb->abrirArquivo(_arvoreb, _arvoreb->_arq->nomeBin);
 
@@ -73,7 +76,8 @@ void func9() {
     _arvoreb->leCabecalho(_arvoreb, _arvbCab);
 
     // Verifica se a arvoreb esta inconsistente
-    if (_arvbCab->status == '0') {
+    if (_arvbCab->status == '0')
+    {
         printf("Falha no processamento do arquivo.\n");
 
         // Fechar arquivo
@@ -86,14 +90,14 @@ void func9() {
         return;
     }
 
+    printArvoreb(_arvoreb);
+
     // Numero de registros a serem inseridos
     int n;
     scanf("%d", &n);
 
     // Altera o status do arquivo arvoreb para inconsistente
     _arvbCab->status = '0';
-    _arvbCab->RRNproxNo = 0;
-    _arvbCab->noRaiz = 0;
 
     _arvoreb->insereCabecalho(_arvoreb, _arvbCab);
 
@@ -191,18 +195,22 @@ void func9() {
             _novo_registro->alimento = (char *) malloc(strlen(aux) + 1);
             strncpy(_novo_registro->alimento, aux, strlen(aux) + 1);
         }
-        //printRegistro(_novo_registro);
+        printRegistro(_novo_registro);
         //Insere o registro no arquivo
         inserirRegistro(_arqBin, _novo_registro, (i + NumeroReg) * 160 + 1600);
-
+        printf("Registro inserido com sucesso.\n");
         // Cria um elemento da arvoreb
-        arvorebElemento* arvbEle;
-        arvbEle = (arvorebElemento*) malloc(sizeof(arvorebElemento));
-
-        arvbEle->chave = converteNome(_novo_registro->nome);
-        arvbEle->pr = (i + NumeroReg) * 160 + 1600;
-        int j = _arvoreb->insereElemento(_arvoreb, arvbEle);
-
+        arvorebElemento arvbEle;
+        
+        arvbEle.chave = converteNome(_novo_registro->nome);
+        arvbEle.pr = (i + NumeroReg) * 160 + 1600;
+        printf("%ld %ld\n", arvbEle.chave, arvbEle.pr);
+        int j = _arvoreb->insereElemento(_arvoreb, &arvbEle);
+        if(j == 1) {
+            printf("Falha no processamento do arquivo.\n");
+            return;
+        }
+        printf("Elemento inserido com sucesso.\n");
         // Destroi registro da memoria
         destroiRegistro(&_novo_registro);
     }
@@ -215,7 +223,7 @@ void func9() {
     _arvoreb->leCabecalho(_arvoreb, _arvbCab);
     _arvbCab->status = '1';
     _arvoreb->insereCabecalho(_arvoreb, _arvbCab);
-    printArvoreb(_arvoreb);
+    //printArvoreb(_arvoreb);
     // Fechar arquivo binario lido
     fecharArqBin(_arqBin);
 
