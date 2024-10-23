@@ -1,10 +1,10 @@
-    // Link
-    #include "../include/src/func8.h"
-    /*
-    * Função que realiza a busca de um registro na árvore B que contém o valor de um campo específico.
-    */
-    void func8() {
-        // Cria a struct de arqBin
+// Link
+#include "../include/src/func8.h"
+/*
+* Função que realiza a busca de um registro na árvore B que contém o valor de um campo específico.
+*/
+void func8() {
+    // Cria a struct de arqBin
     arqBin *_arqBin = criaArqBin();
 
     // Faz a leitura do nome do arquivo
@@ -66,7 +66,19 @@
     scanf("%s", _arvoreb->_arq->nomeBin);
     
     // Abre o arquivo
-    _arvoreb->abrirArquivo(_arvoreb, _arvoreb->_arq->nomeBin);
+    if(_arvoreb->abrirArquivo(_arvoreb, _arvoreb->_arq->nomeBin) == 1) {
+        printf("Falha no processamento do arquivo.\n");
+
+        // Fechar arquivo
+        fecharArqBin(_arqBin);
+
+        // Termina a funcao
+        destroiCabecalho(&_cabecalho);
+        destroiArqBin(&_arqBin);
+        destroiArvoreb(&_arvoreb);
+
+        return;
+    }
 
     // Cria um cabecalho
     arvorebCabecalho *_arvbCab;
@@ -85,6 +97,8 @@
         // Termina a funcao
         destroiCabecalho(&_cabecalho);
         destroiArqBin(&_arqBin);
+        destroiArvoreb(&_arvoreb);
+        destroiArvorebCabecalho(&_arvbCab);
 
         return;
     }
@@ -109,8 +123,26 @@
     if (j == 1)
     {
         printf("Registro inexistente.\n");
-        return;
 
+        // Fechar arquivo binario lido
+        fecharArqBin(_arqBin);
+
+        // Fechar arquivo arvoreb
+        fecharArqBin(_arvoreb->_arq);
+
+        // Destroi cabecalho da arvoreb
+        destroiArvorebCabecalho(&_arvbCab);
+
+        // Destroi arvoreb
+        destroiArvoreb(&_arvoreb);
+
+        // Destroi cabecalho
+        destroiCabecalho(&_cabecalho);
+
+        // Destroi arqBin
+        destroiArqBin(&_arqBin);
+
+        return;
     }
 
     // Cria um registro
@@ -138,4 +170,4 @@
     // Destroi arvoreb
     destroiArvoreb(&_arvoreb);
 
-    }
+}
