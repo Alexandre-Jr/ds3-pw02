@@ -13,7 +13,7 @@ void func7()
   // Abrir arquivo
   if (abrirArqBin(_arqBin, 'r') == 1)
   {
-    printf("Falha no procesamento do arquivo.\n");
+    printf("Falha no processamento do arquivo.\n");
 
     // Fechar arquivo
     fecharArqBin(_arqBin);
@@ -69,9 +69,21 @@ void func7()
   _arvoreb->criaArquivoArvoreb(_arvoreb, _arvoreb->_arq->nomeBin);
 
   // Abre o arquivo
-  _arvoreb->abrirArquivo(_arvoreb, _arvoreb->_arq->nomeBin);
+  if(_arvoreb->abrirArquivo(_arvoreb, _arvoreb->_arq->nomeBin) == 1) {
+    printf("Falha no processamento do arquivo.\n");
 
-  // Cria um cabecario
+    // Fechar arquivo
+    fecharArqBin(_arqBin);
+
+    // Termina a funcao
+    destroiCabecalho(&_cabecalho);
+    destroiArqBin(&_arqBin);
+    destroiArvoreb(&_arvoreb);
+
+    return;
+  };
+
+  // Cria um cabecalho
   arvorebCabecalho *_arvbCab;
   criaArvorebCabecalho(&_arvbCab);
 
@@ -100,7 +112,8 @@ void func7()
       arvbEle.chave = converteNome(_registro->nome);
       arvbEle.pr = i * 160 + 1600;
 
-      int j = _arvoreb->insereElemento(_arvoreb, &arvbEle);
+      // Insere o elemento na arvoreb
+      _arvoreb->insereElemento(_arvoreb, &arvbEle);
     }
 
     // Destroi registro da memoria
@@ -114,9 +127,6 @@ void func7()
 
   _arvoreb->insereCabecalho(_arvoreb, _arvbCab);
 
-  // Debug
-  // printArvoreb(_arvoreb);
-
   // Fechar arquivo binario lido
   fecharArqBin(_arqBin);
 
@@ -127,4 +137,6 @@ void func7()
   // Termina a funcao
   destroiCabecalho(&_cabecalho);
   destroiArqBin(&_arqBin);
+  destroiArvorebCabecalho(&_arvbCab);
+  destroiArvoreb(&_arvoreb);
 }
