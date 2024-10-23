@@ -7,10 +7,12 @@
 #include <stdlib.h>
 
 // Dependências
-#include "../include/src/utils.h"
 #include "../include/src/structs/arvoreb.h"
+#include "../include/src/utils.h"
 
 // Funcao principal
 void func9();
+
+void func5plus();
 
 #endif // FUNC9_H

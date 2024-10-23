@@ -41,14 +41,15 @@ int main(void) {
     func8();
     break; 
   case 9:
-    func9();
+    func5plus();
     break;
   case 10:
+    
     // Caso para DEBUG facil
     arvoreb * _arvb;
     criaArvoreb(&_arvb);
 
-    char v[] = "indiceDino9.bin";
+    char v[] = "indiceDino8.bin";
 
     _arvb->abrirArquivo(_arvb, v);
     char arq[] = "Gabarito.txt";
