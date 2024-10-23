@@ -44,7 +44,7 @@ int main(void) {
     func9();
     break;
   case 10:
-    
+    // Caso para DEBUG facil
     arvoreb * _arvb;
     criaArvoreb(&_arvb);
 

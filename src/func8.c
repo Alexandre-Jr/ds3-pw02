@@ -68,7 +68,7 @@
     // Abre o arquivo
     _arvoreb->abrirArquivo(_arvoreb, _arvoreb->_arq->nomeBin);
 
-    // Cria um cabecario
+    // Cria um cabecalho
     arvorebCabecalho *_arvbCab;
     criaArvorebCabecalho(&_arvbCab);
 
@@ -122,12 +122,14 @@
 
     // Imprime o registro
     printRegistro(_registro);
+
     // Destroi registro da memoria
     destroiRegistro(&_registro);
 
     // Fechar arquivo binario lido
     fecharArqBin(_arqBin);
 
+    // Fechar arquivo arvoreb
     fecharArqBin(_arvoreb->_arq);
 
     // Destroi cabecalho da arvoreb

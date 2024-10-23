@@ -31,7 +31,7 @@ void func9() {
     // Le cabecalho
     leCabecalho(_arqBin, _cabecalho);
 
-    // Verifica se o arquivo não apresenta o aviso de inconsistente
+    // Verifica se o arquivo binario não apresenta o aviso de inconsistente
     if (_cabecalho->status == '0')
     {
         printf("Falha no processamento do arquivo.\n");
@@ -46,14 +46,7 @@ void func9() {
         return;
     }
 
-    // Captura o tamanho do arquivo e o numero de paginas
-    int tamArqBin = 0;
-    tamanhoArqBin(_arqBin, &tamArqBin);
-
-    int NumeroReg = (tamArqBin - TAMANHO_PAG) / TAMANHO_REGISTRO;
-    int NumeroPag = ceil((float)tamArqBin / TAMANHO_PAG);
-
-    if (NumeroReg == 0)
+    if (_cabecalho->proxRRN == 0)
     { // Sem registros
         printf("Registro inexistente.\n");
         return;
@@ -69,7 +62,7 @@ void func9() {
     // Abre o arquivo
     _arvoreb->abrirArquivo(_arvoreb, _arvoreb->_arq->nomeBin);
 
-    // Cria um cabecario
+    // Cria um cabecalho
     arvorebCabecalho *_arvbCab;
     criaArvorebCabecalho(&_arvbCab);
 
@@ -107,7 +100,7 @@ void func9() {
     // Variavel auxiliar para leitura
     char aux[100];
 
-    // Leitura dos registros a serem inseridos
+    // Leitura dos n registros a serem inseridos
     for(int i = 0; i < n; ++i) {
         // Cria um registro
         registro *_novo_registro = criaRegistro();
@@ -195,14 +188,15 @@ void func9() {
         }
 
         //Insere o registro no arquivo
-        inserirRegistro(_arqBin, _novo_registro, (i + NumeroReg) * 160 + 1600);
+        inserirRegistro(_arqBin, _novo_registro, (_cabecalho->proxRRN + i) * 160 + 1600);
 
         // Cria um elemento da arvoreb
         arvorebElemento arvbEle;
         
         arvbEle.chave = converteNome(_novo_registro->nome);
-        arvbEle.pr = (i + NumeroReg) * 160 + 1600;
+        arvbEle.pr = (_cabecalho->proxRRN + i) * 160 + 1600;
 
+        // Insere o elemento na arvoreb
         int j = _arvoreb->insereElemento(_arvoreb, &arvbEle);
         if(j == 1) {
             printf("Falha no processamento do arquivo.\n");
@@ -215,19 +209,23 @@ void func9() {
 
     // Atualiza o cabecalho do arquivo binario
     _cabecalho->status = '1';
-    _cabecalho->proxRRN = NumeroReg + n;
+    _cabecalho->proxRRN += n;
     escreveCabecalho(_arqBin, _cabecalho);
 
     // Finaliza a edicao na arvoreb
     _arvbCab->status = '1';
     _arvoreb->insereCabecalho(_arvoreb, _arvbCab);
-    char arq[100] = "arvoreb_";
+
+    //char arq[100] = "arvoreb_";
     //fprintArvoreb(_arvoreb, arq);
+
     // Fechar arquivo binario lido
     fecharArqBin(_arqBin);
 
+    // Fechar arquivo arvoreb
     fecharArqBin(_arvoreb->_arq);
 
+    // Imprime a arvoreb na tela
     binarioNaTela(_arvoreb->_arq->nomeBin);
 
     // Termina a funcao
