@@ -13,6 +13,4 @@
 // Funcao principal
 void func9();
 
-void func5plus();
-
 #endif // FUNC9_H

@@ -41,7 +41,7 @@ int main(void) {
     func8();
     break; 
   case 9:
-    func5plus();
+    func9();
     break;
   case 10:
     
