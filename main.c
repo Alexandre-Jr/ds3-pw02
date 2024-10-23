@@ -44,18 +44,18 @@ int main(void) {
     func9();
     break;
   case 10:
-    /*
+    
     arvoreb * _arvb;
     criaArvoreb(&_arvb);
 
-    char v[] = "indiceDino8.bin";
+    char v[] = "indiceDino9.bin";
 
     _arvb->abrirArquivo(_arvb, v);
-    
-    printArvoreb(_arvb);
-    */
+    char arq[] = "Gabarito.txt";
+    fprintArvoreb(_arvb, arq);
+    /*
    char nome[] = "pterodactilus";
-    printf("%ld", converteNome(nome));
+    printf("%ld", converteNome(nome));*/
     break;
   }
 

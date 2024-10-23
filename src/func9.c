@@ -90,8 +90,6 @@ void func9() {
         return;
     }
 
-    printArvoreb(_arvoreb);
-
     // Numero de registros a serem inseridos
     int n;
     scanf("%d", &n);
@@ -214,16 +212,17 @@ void func9() {
         // Destroi registro da memoria
         destroiRegistro(&_novo_registro);
     }
+
     // Atualiza o cabecalho do arquivo binario
     _cabecalho->status = '1';
     _cabecalho->proxRRN = NumeroReg + n;
     escreveCabecalho(_arqBin, _cabecalho);
 
     // Finaliza a edicao na arvoreb
-    _arvoreb->leCabecalho(_arvoreb, _arvbCab);
     _arvbCab->status = '1';
     _arvoreb->insereCabecalho(_arvoreb, _arvbCab);
-    //printArvoreb(_arvoreb);
+    char arq[100] = "arvoreb_";
+    //fprintArvoreb(_arvoreb, arq);
     // Fechar arquivo binario lido
     fecharArqBin(_arqBin);
 

@@ -142,6 +142,7 @@ int arvoreb_insereElemento(arvoreb * _arvoreb, arvorebElemento * _arvorebElement
 // Funcao debug print todos os elementos e cabecarios da arvore b
 int printArvoreb(arvoreb * _arvoreb);
 
+int fprintArvoreb(arvoreb * _arvoreb, char * _nome_file);
 
 // Cria a estrutura arvorebCabecalho e aloca o espaco necessario (retorna 1 - erro e retorna 0 - sucesso)
 int criaArvoreb(arvoreb ** __arvoreb);

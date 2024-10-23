@@ -835,6 +835,44 @@ int arvoreb_insereElemento(arvoreb * _arvoreb, arvorebElemento * _arvorebElement
 }
 
 // Funcao debug print todos os elementos e cabecarios da arvore b
+int fprintArvoreb(arvoreb * _arvoreb, char * _nome_file) {
+    FILE* _file = fopen(_nome_file, "w");
+    if(_file == NULL) {
+        return 1;
+    }
+
+    arvorebCabecalho * _arvorebCabecalho;
+    criaArvorebCabecalho(&_arvorebCabecalho);
+
+    _arvoreb->leCabecalho(_arvoreb, _arvorebCabecalho);
+    
+    fprintf(_file, " \n\nCabecalho:\n\nStatus: %c \nnoRaiz: %d \nRRNproxNo: %d\n\n", _arvorebCabecalho->status, _arvorebCabecalho->noRaiz, _arvorebCabecalho->RRNproxNo);
+
+
+    arvorebRegistro * _arvorebRegistro;
+    criaArvorebRegistro(&_arvorebRegistro);
+
+    for(int i = 0; i < _arvorebCabecalho->RRNproxNo; i++) {
+        _arvoreb->leRegistro(_arvoreb, _arvorebRegistro, i);
+
+        fprintf(_file,"\n\nRegistro: %d\n\n Folha: %c \n nroChavesNo: %d\n RRNdoNo: %d\n P1: %d\n C1: %li    Pr1: %li\n P2: %d\n C2: %li    Pr2: %li\n P3: %d\n C3: %li    Pr3: %li\n P4: %d\n C4: %li    Pr4: %li \n P5: %d\n", 
+        _arvorebRegistro->RRNdoNo, _arvorebRegistro->folha, _arvorebRegistro->nroChavesNo, _arvorebRegistro->RRNdoNo, _arvorebRegistro->ponteiros[0], _arvorebRegistro->elementos[0].chave, _arvorebRegistro->elementos[0].pr, 
+        _arvorebRegistro->ponteiros[1], _arvorebRegistro->elementos[1].chave, _arvorebRegistro->elementos[1].pr,
+        _arvorebRegistro->ponteiros[2], _arvorebRegistro->elementos[2].chave, _arvorebRegistro->elementos[2].pr,
+        _arvorebRegistro->ponteiros[3], _arvorebRegistro->elementos[3].chave, _arvorebRegistro->elementos[3].pr, _arvorebRegistro->ponteiros[4]);
+
+
+    }
+
+
+    destroiArvorebCabecalho(&_arvorebCabecalho);
+
+    fclose(_file);
+    return 0;
+
+}
+
+// Funcao debug print todos os elementos e cabecarios da arvore b
 int printArvoreb(arvoreb * _arvoreb) {
 
     arvorebCabecalho * _arvorebCabecalho;
